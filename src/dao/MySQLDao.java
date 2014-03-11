@@ -33,7 +33,7 @@ public class MySQLDao {
 	// ������
 	public PreparedStatement ps = null;
 	private String insert_uni_sql = "INSERT IGNORE INTO `jzusdb`.`university` (`id`, `name`, `url`, `location`, `Region`, `mapurl`, `worldrank`, `intro`, `Overallscore`, `Teaching`, `Internationaloutlook`, `Industryincome`, `Research`, `Citations`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	private String insert_pageinfo_sql = "INSERT IGNORE INTO  `jzusdb`.`universitypageinfo` (" + 
+	private String insert_pageinfo_sql = "INSERT IGNORE INTO  `jzusdb`.`universitypageinfo2` (" + 
 										"`id` ," + 
 										"`urlencoding` ," + 
 										"`pageurl` ," + 

@@ -43,7 +43,7 @@ public class ExtractMainContentCrawler {
 
 	private static MySQLDao mysqldao = new MySQLDao();
 
-	private static RIDFKeywordExtractor ridfke = new RIDFKeywordExtractor();
+//	private static RIDFKeywordExtractor ridfke = new RIDFKeywordExtractor();
 	private static TagTool tt = new TagTool();
 	
 	static {
@@ -151,9 +151,9 @@ public class ExtractMainContentCrawler {
                 System.out.println("Response was redirected from " + crawlerTask.getUrl());
             } else if (page.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 // Printing url crawled
-            	System.out.println("=====================================================");
-            	System.out.println("=====================================================");
-            	System.out.println("=====================================================");
+//            	System.out.println("=====================================================");
+//            	System.out.println("=====================================================");
+//            	System.out.println("=====================================================");
                 System.out.println(pagecounter++ + " " + crawlerTask.getUrl() + ". Found " + (page.getLinks() != null ? page.getLinks().size() : 0) + " links.");
                 String content = page.getContentString();
                 // extract emails and names
@@ -166,24 +166,25 @@ public class ExtractMainContentCrawler {
 					content = Htmltools.htmlRemoveTag(content).
 	                		replaceAll("(?m)^\\s*$[\n\r]{1,}", "").trim().replaceAll("\t", " ").replaceAll(" +", " ");
 				}
-				List<String> kwlist = null;
-				if (null != content && !content.equals(""))
-					try {
-						kwlist = ridfke.extract(content);
-					} catch (JATEException | IOException e) {
-						kwlist = new ArrayList<String>();
-					}
+				List<String> kwlist = new ArrayList<String>();
+//				if (null != content && !content.equals(""))
+//					try {
+//						kwlist = ridfke.extract(content);
+//					} catch (JATEException | IOException e) {
+//						kwlist = new ArrayList<String>();
+//					}
 				String synsetstr = "";
-				if (null != kwlist && kwlist.size() > 0) {
-					for (String kword : kwlist) {
-						synsetstr += SynonymUtil.getSynonymSet(kword);
-					}
-				}
-				System.out.println("Content Len:" + content.length() + " " + crawlerTask.getUrl());
-				System.out.println("Keywords: " + kwlist);
-				System.out.println("Synsetstr: " + synsetstr);
-                System.out.println("Emails：" + scholar.toString());
-                System.out.println("Fields: " + fields);
+//				if (null != kwlist && kwlist.size() > 0) {
+//					for (String kword : kwlist) {
+//						synsetstr += SynonymUtil.getSynonymSet(kword);
+//					}
+//				}
+				
+//				System.out.println("Content Len:" + content.length() + " " + crawlerTask.getUrl());
+//				System.out.println("Keywords: " + kwlist);
+//				System.out.println("Synsetstr: " + synsetstr);
+//                System.out.println("Emails：" + scholar.toString());
+//                System.out.println("Fields: " + fields);
 				
         		UniversityPageinfo universitypageinfo = new UniversityPageinfo();
         		universitypageinfo.setPageurl(crawlerTask.getUrl());
@@ -196,9 +197,11 @@ public class ExtractMainContentCrawler {
         		universitypageinfo.setKeywordsynonym(synsetstr);
         		mysqldao.addPageinfo(universitypageinfo);
         		scholar = null;
-        		universitypageinfo = null;
+        		fields = null;
         		content = null;
         		kwlist = null;
+        		synsetstr =  null;
+        		universitypageinfo = null;
             }
         }
 

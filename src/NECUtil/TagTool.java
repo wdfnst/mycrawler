@@ -41,6 +41,8 @@ public class TagTool {
 		sc.setEmail(scholaremail);
 		sc.setField(scolarfield);
 		
+		taggedStr = null;
+		
 		return sc;
 	}
 

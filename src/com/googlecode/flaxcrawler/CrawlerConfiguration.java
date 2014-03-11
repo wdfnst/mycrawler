@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 /**
  * Represents crawler configuration.
@@ -12,7 +11,6 @@ import org.apache.log4j.Logger;
  */
 public class CrawlerConfiguration {
 
-    private Logger log = Logger.getLogger(this.getClass());
     private int maxParallelRequests;
     private int maxLevel;
     private int politenessPeriod;

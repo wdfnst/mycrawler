@@ -35,7 +35,8 @@ public class RegexTool {
 		}
 		//if(find==null)
 			  //System.out.print("Can't Find");
-		  
+		find = null;
+		mat = null;
 		return emaillist;
 	}
 	
