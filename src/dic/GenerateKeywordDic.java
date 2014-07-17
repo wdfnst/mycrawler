@@ -1,17 +1,20 @@
-package com.skjegstad.utils;
+package dic;
 
 import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import util.Urltools;
 import NECUtil.HTMLSpirit;
-import NECUtil.TagTool;
+import cue.lang.WordIterator;
+import cue.lang.stop.StopWords;
 import dao.MySQLDao;
 
-public class KeywordProcessor {
+public class GenerateKeywordDic {
+
 	private static MySQLDao mysqldao = new MySQLDao();
 
 //	private static RIDFKeywordExtractor ridfke = new RIDFKeywordExtractor();
@@ -26,8 +29,8 @@ public class KeywordProcessor {
 		}
 	}
 	
-	public static List<String> getSeedlist() throws MalformedURLException{
-		List<String> seedlist = new ArrayList<String>();
+	public static Set<String> getKeywords() throws MalformedURLException{
+		Set<String> keywordlist = new HashSet<String>();//new ArrayList<String>();
 		MySQLDao csd = null;
 		try {
 			csd = new MySQLDao();
@@ -39,24 +42,27 @@ public class KeywordProcessor {
 			while (rs.next()) {
 				String keyword_str = HTMLSpirit.delHTMLTag(rs.getString("keyword"));
 				String keywords[] = keyword_str.split("[,;]");
-				System.out.println(keyword_str);
-				for(String s : keywords)
-					System.out.print(s.toString());
-				System.out.println("\n");
-
+				for(String s : keywords) {
+					for (String word : new WordIterator(s)) {
+						word = word.toLowerCase();
+						if (!StopWords.English.isStopWord(word)/* && instance.contains(word)*/) 
+							keywordlist.add(word);
+					}
+				}
+//				System.out.println("\n");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			csd.close();
 		}
-		return seedlist;
+		return keywordlist;
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			KeywordProcessor.getSeedlist();
+			GenerateKeywordDic.getKeywords();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
