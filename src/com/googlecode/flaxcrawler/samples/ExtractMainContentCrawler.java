@@ -202,6 +202,7 @@ public class ExtractMainContentCrawler {
         		kwlist = null;
         		synsetstr =  null;
         		universitypageinfo = null;
+        		Runtime.getRuntime().gc();
             }
         }
 
