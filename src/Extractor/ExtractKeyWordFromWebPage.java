@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import cue.lang.stop.StopWords;
 import dao.MySQLDao;
 import dic.GenerateKeywordDic;
 import NECUtil.HTMLSpirit;
@@ -26,6 +25,9 @@ public class ExtractKeyWordFromWebPage {
 		}
 	}
 	
+	/*
+	 * Extract the interests in keyword and integrate with the categories
+	 */
 	public void getIntrests() {
 		Set<String> keywordlist = new HashSet<String>();//new ArrayList<String>();
 		MySQLDao csd = null;
@@ -46,6 +48,7 @@ public class ExtractKeyWordFromWebPage {
 				System.out.println("+" + new_intrests);
 				System.out.println("-" + old_intrests);
 				System.out.println("-" + intrests);
+				mysqldao.updateInterests(new_intrests.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,7 +67,6 @@ public class ExtractKeyWordFromWebPage {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

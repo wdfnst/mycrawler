@@ -13,24 +13,23 @@ import entity.University;
 public class MySQLDao {
 	
 	static {
-		// ���������
+		//  
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("�����ʧ��");
+			System.out.println("Failed finding Driver.");
 		}
 	}
-	// ��ݿ������ַ�
+	// 
 	private String url = "jdbc:mysql://localhost:3306/jzusdb";
-	// �û���
+	// 
 	private String userName = "jzus";
-	// ����
+	// 
 	private String passWord = "mzxwswws";
-	// ���Ӷ���
+	//  
 	public Connection con = null;
-	// ������
+	//  
 	public PreparedStatement ps = null;
 	private String insert_uni_sql = "INSERT IGNORE INTO `jzusdb`.`university` (`id`, `name`, `url`, `location`, `Region`, `mapurl`, `worldrank`, `intro`, `Overallscore`, `Teaching`, `Internationaloutlook`, `Industryincome`, `Research`, `Citations`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private String insert_pageinfo_sql = "INSERT IGNORE INTO  `jzusdb`.`universitypageinfo2` (" + 
@@ -44,8 +43,9 @@ public class MySQLDao {
 										"`fields` ," + 
 										"`contentkeyword` ," + 
 										"`keywordsynonym`) VALUES ( NULL, MD5(?), ?, ?, ?, ?, ?, ?, ?, ?);";
+	private String update_interest = "update universitypageinfo set fields=? ";
 	
-	// ��ݿ����ӷ���
+	//  
 	public void prepareConnection() {
 		try {
 			if (con == null || con.isClosed()) {
@@ -54,11 +54,11 @@ public class MySQLDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RuntimeException("�����쳣:" + e.getMessage());
+			throw new RuntimeException("Error:" + e.getMessage());
 		}
 	}
 
-	// �رշ���
+	// 
 	public void close() {
 		try {
 			if (ps != null) {
@@ -70,11 +70,11 @@ public class MySQLDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RuntimeException("�ر������쳣:" + e.getMessage());
+			throw new RuntimeException("Error:" + e.getMessage());
 		}
 	}
 
-	// �����ع�
+	// 
 	public void rollback() {
 		try {
 			if (con != null) {
@@ -83,7 +83,7 @@ public class MySQLDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RuntimeException("�ع�ʧ��:" + e.getMessage());
+			throw new RuntimeException("Error:" + e.getMessage());
 		}
 	}
 	
@@ -173,5 +173,26 @@ public class MySQLDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public int updateInterests(String interests) throws SQLException {
+		int i = 0;
+		try {
+			prepareConnection();
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(update_interest);
+			ps.setString(1, interests);
+			System.out.println(ps.toString());
+			//i = ps.executeUpdate();
+			//con.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			rollback();
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return i;
 	}
 }
