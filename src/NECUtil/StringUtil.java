@@ -18,6 +18,7 @@ public class StringUtil {
 				if (ss != null && ss != " ")
 					rets.add(ss);
 			}
+			es = null;
 		}
 			
 		return rets;

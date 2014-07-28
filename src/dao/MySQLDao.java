@@ -24,9 +24,9 @@ public class MySQLDao {
 	// 
 	private String url = "jdbc:mysql://localhost:3306/jzusdb";
 	// 
-	private String userName = "jzus";
+	private String userName = "root";
 	// 
-	private String passWord = "mzxwswws";
+	private String passWord = "One2three";
 	//  
 	public Connection con = null;
 	//  
@@ -43,7 +43,7 @@ public class MySQLDao {
 										"`fields` ," + 
 										"`contentkeyword` ," + 
 										"`keywordsynonym`) VALUES ( NULL, MD5(?), ?, ?, ?, ?, ?, ?, ?, ?);";
-	private String update_interest = "update universitypageinfo set fields=? ";
+	private String update_interest = "update universitypageinfo set fields=? where id=?";
 	
 	//  
 	public void prepareConnection() {
@@ -151,7 +151,6 @@ public class MySQLDao {
 		} finally {
 			close();
 		}
-		
 		return i;
 	}
 	
@@ -175,18 +174,17 @@ public class MySQLDao {
 		}
 	}
 
-	public int updateInterests(String interests) throws SQLException {
+	public int updateInterests(Connection con, String interests, int id) throws SQLException {
 		int i = 0;
 		try {
-			prepareConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(update_interest);
 			ps.setString(1, interests);
-			System.out.println(ps.toString());
-			//i = ps.executeUpdate();
-			//con.commit();
+			ps.setInt(2, id);
+			//System.out.println(interests);
+			i = ps.executeUpdate();
+			con.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			rollback();
 			e.printStackTrace();
 		} finally {

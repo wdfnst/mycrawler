@@ -1,13 +1,6 @@
 package NECUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -16,7 +9,6 @@ import com.skjegstad.utils.BloomFilter;
 
 import cue.lang.WordIterator;
 import cue.lang.stop.StopWords;
-import entity.Scholar;
 
 public class KeywordBloomFilter {
 	
